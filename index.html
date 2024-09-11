@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chord Triad Quiz Game</title>
+  <link rel="stylesheet" type="text/css" href="css/styles.css">
+</head>
+<body>
+ <div class="container">
+    <h1>Chord Triad Quiz</h1>
+    <div id="quiz-container">
+      <div class="question" id="question">Loading question...</div>
+      <div class="answer" id="user-answer">Your answer: </div>
+
+      <div class="button-group" id="note-buttons">
+        <!-- Note buttons will be inserted here by JavaScript -->
+      </div>
+
+      <button class="submit" onclick="checkAnswer()">Submit Answer</button>
+      <div class="feedback" id="feedback"></div>
+      <div class="score" id="score">Score: 0/0</div>
+    </div>
+  </div>
+  <script src="js/main.js"></script>
+</body>
+</html>
