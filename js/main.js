@@ -38,11 +38,11 @@ const notes = ['C', 'C#', 'Db', 'D', 'D#', 'Eb', 'E', 'F', 'F#', 'Gb', 'G', 'G#'
     // Preload note sounds
     const noteSounds = {};
     notes.forEach(note => {
-      noteSounds[note] = new Audio(`path/to/sounds/${note}.mp3`);
+      noteSounds[note] = new Audio(`assets/sounds/${note}.mp3`);
     });
 
-    const successSound = new Audio('path/to/sounds/success.mp3');
-    const failureSound = new Audio('path/to/sounds/failure.mp3');
+    const successSound = new Audio('assets/sounds/success.mp3');
+    const failureSound = new Audio('assets/sounds/failure.mp3');
 
     function loadRandomQuestion() {
       const randomIndex = Math.floor(Math.random() * questions.length);
