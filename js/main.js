@@ -27,57 +27,63 @@ const notes = ['C', 'C#', 'Db', 'D', 'D#', 'Eb', 'E', 'F', 'F#', 'Gb', 'G', 'G#'
       { question: "What are the 3 notes that make up the B Minor triad?", answer: "B D F#" }
     ];
 
-    let score = 0;
-    let totalQuestions = questions.length;
-    let remainingQuestions = [...questions]; // Create a copy of the questions to track which have been used
+    let currentQuestion = {};
     let userAnswer = [];
-    let activeNoteIndex = null; // Keep track of the active note being updated
+    let score = 0;
+    let totalQuestions = 0;
+    let activeNoteIndex = null;
+
+    const soundsEnabled = () => document.getElementById('toggle-sound').checked;
+
+    // Preload note sounds
+    const noteSounds = {};
+    notes.forEach(note => {
+      noteSounds[note] = new Audio(`assets/sounds/${note}.mp3`);
+    });
+
+    const successSound = new Audio('assets/sounds/success.mp3');
+    const failureSound = new Audio('assets/sounds/failure.mp3');
 
     function loadRandomQuestion() {
-      if (remainingQuestions.length === 0) {
-        document.getElementById('question').textContent = 'Quiz complete!';
-        document.getElementById('note-buttons').style.display = 'none';
-        document.getElementById('feedback').textContent = `Final score: ${score}/${totalQuestions}`;
-        return;
-      }
-
-      // Get a random index from the remaining questions
-      const randomIndex = Math.floor(Math.random() * remainingQuestions.length);
-      const currentQuestion = remainingQuestions[randomIndex];
-
+      const randomIndex = Math.floor(Math.random() * questions.length);
+      currentQuestion = questions[randomIndex];
       document.getElementById('question').textContent = currentQuestion.question;
-      document.getElementById('user-answer').textContent = 'Your answer: ';
-      document.getElementById('feedback').textContent = '';
       userAnswer = [];
-      activeNoteIndex = null; // Reset active note index
+      renderAnswer();
+      document.getElementById('feedback').textContent = '';
+    }
 
-      // Clear any previously added note entries
-      document.getElementById('user-answer').innerHTML = '';
-
-      // Store the current question's correct answer
-      window.currentAnswer = currentQuestion.answer;
-      remainingQuestions.splice(randomIndex, 1); // Remove the selected question from the list
+    function playNoteSound(note) {
+      if (soundsEnabled() && noteSounds[note]) {
+        noteSounds[note].currentTime = 0; // Reset the sound
+        noteSounds[note].play();
+      }
     }
 
     function checkAnswer() {
       const userAnswerStr = userAnswer.join(' ');
-      const correctAnswer = window.currentAnswer;
+      totalQuestions++;
 
-      if (userAnswerStr.toLowerCase() === correctAnswer.toLowerCase()) {
+      if (userAnswerStr === currentQuestion.answer) {
         document.getElementById('feedback').textContent = 'Correct!';
-        document.getElementById('feedback').className = 'feedback correct';
+        document.getElementById('feedback').classList.add('correct');
+        document.getElementById('feedback').classList.remove('incorrect');
         score++;
+        if (soundsEnabled()) successSound.play();
       } else {
-        document.getElementById('feedback').textContent = `Incorrect! The correct answer is: ${correctAnswer}`;
-        document.getElementById('feedback').className = 'feedback incorrect';
+        document.getElementById('feedback').textContent = `Incorrect. The correct answer is ${currentQuestion.answer}.`;
+        document.getElementById('feedback').classList.add('incorrect');
+        document.getElementById('feedback').classList.remove('correct');
+        if (soundsEnabled()) failureSound.play();
       }
 
-      document.getElementById('score').textContent = `Score: ${score}/${totalQuestions - remainingQuestions.length}`;
-
-      setTimeout(loadRandomQuestion, 1500); // Load the next question after a delay
+      document.getElementById('score').textContent = `Score: ${score}/${totalQuestions}`;
+      loadRandomQuestion();
     }
 
     function selectNote(note) {
+      playNoteSound(note); // Play the note sound
+
       if (activeNoteIndex !== null) {
         userAnswer[activeNoteIndex] = note; // Update the selected note
         renderAnswer(); // Re-render the updated answer

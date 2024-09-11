@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Chord Triad Quiz Game</title>
-  <link rel="stylesheet" type="text/css" href="css/styles.css">
 </head>
 <body>
  <div class="container">
@@ -20,8 +19,12 @@
       <button class="submit" onclick="checkAnswer()">Submit Answer</button>
       <div class="feedback" id="feedback"></div>
       <div class="score" id="score">Score: 0/0</div>
+
+      <div class="sound-toggle">
+        <label for="toggle-sound">Play sounds:</label>
+        <input type="checkbox" id="toggle-sound" checked>
+      </div>
     </div>
   </div>
-  <script src="js/main.js"></script>
 </body>
 </html>
