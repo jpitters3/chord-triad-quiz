@@ -71,7 +71,11 @@ const notes = ['C', 'C#', 'Db', 'D', 'D#', 'Eb', 'E', 'F', 'F#', 'Gb', 'G', 'G#'
         document.getElementById('feedback').classList.remove('incorrect');
         score++;
         if (soundsEnabled()) successSound.play();
-        loadRandomQuestion(); // Move to the next question right away on success
+
+        // Move to the next question after 1 second
+        setTimeout(() => {
+          loadRandomQuestion();
+        }, 1000);
       } else {
         document.getElementById('feedback').textContent = `Incorrect. The correct answer is ${currentQuestion.answer}.`;
         document.getElementById('feedback').classList.add('incorrect');
