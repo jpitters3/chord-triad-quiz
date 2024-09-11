@@ -92,7 +92,7 @@ const notes = ['C', 'C#', 'Db', 'D', 'D#', 'Eb', 'E', 'F', 'F#', 'Gb', 'G', 'G#'
     }
 
     function selectNote(note) {
-      playNoteSound(note); // Play the note sound
+      //playNoteSound(note); // Play the note sound
 
       if (activeNoteIndex !== null) {
         userAnswer[activeNoteIndex] = note; // Update the selected note
