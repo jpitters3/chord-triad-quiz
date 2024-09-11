@@ -60,6 +60,21 @@ button.submit:hover {
   background-color: #218838;
 }
 
+button.next {
+  padding: 10px 20px;
+  margin-top: 10px;
+  font-size: 16px;
+  background-color: #17a2b8;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button.next:hover {
+  background-color: #138496;
+}
+
 .feedback {
   margin-top: 10px;
   font-size: 18px;
