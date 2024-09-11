@@ -38,11 +38,11 @@ const notes = ['C', 'C#', 'Db', 'D', 'D#', 'Eb', 'E', 'F', 'F#', 'Gb', 'G', 'G#'
     // Preload note sounds
     const noteSounds = {};
     notes.forEach(note => {
-      noteSounds[note] = new Audio(`assets/sounds/${note}.mp3`);
+      noteSounds[note] = new Audio(`path/to/sounds/${note}.mp3`);
     });
 
-    const successSound = new Audio('assets/sounds/success.mp3');
-    const failureSound = new Audio('assets/sounds/failure.mp3');
+    const successSound = new Audio('path/to/sounds/success.mp3');
+    const failureSound = new Audio('path/to/sounds/failure.mp3');
 
     function loadRandomQuestion() {
       const randomIndex = Math.floor(Math.random() * questions.length);
@@ -51,6 +51,7 @@ const notes = ['C', 'C#', 'Db', 'D', 'D#', 'Eb', 'E', 'F', 'F#', 'Gb', 'G', 'G#'
       userAnswer = [];
       renderAnswer();
       document.getElementById('feedback').textContent = '';
+      document.getElementById('next-button').style.display = 'none';
     }
 
     function playNoteSound(note) {
@@ -70,14 +71,19 @@ const notes = ['C', 'C#', 'Db', 'D', 'D#', 'Eb', 'E', 'F', 'F#', 'Gb', 'G', 'G#'
         document.getElementById('feedback').classList.remove('incorrect');
         score++;
         if (soundsEnabled()) successSound.play();
+        loadRandomQuestion(); // Move to the next question right away on success
       } else {
         document.getElementById('feedback').textContent = `Incorrect. The correct answer is ${currentQuestion.answer}.`;
         document.getElementById('feedback').classList.add('incorrect');
         document.getElementById('feedback').classList.remove('correct');
+        document.getElementById('next-button').style.display = 'inline'; // Show the next button
         if (soundsEnabled()) failureSound.play();
       }
 
       document.getElementById('score').textContent = `Score: ${score}/${totalQuestions}`;
+    }
+
+    function nextQuestion() {
       loadRandomQuestion();
     }
 
@@ -129,5 +135,9 @@ const notes = ['C', 'C#', 'Db', 'D', 'D#', 'Eb', 'E', 'F', 'F#', 'Gb', 'G', 'G#'
     }
 
     // Initialize the game
-    renderNoteButtons();
-    loadRandomQuestion();
+    function init() {
+      renderNoteButtons();
+      loadRandomQuestion();
+    }
+
+    window.onload = init;
